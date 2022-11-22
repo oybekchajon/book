@@ -1,0 +1,158 @@
+definitions:
+  apifunc.BookRequest:
+    properties:
+      amount:
+        type: number
+      author:
+        type: string
+      price:
+        type: number
+      title:
+        type: string
+    type: object
+  apifunc.ResponseError:
+    properties:
+      message:
+        type: string
+    type: object
+  storage.Book:
+    properties:
+      amount:
+        type: number
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      price:
+        type: number
+      title:
+        type: string
+    type: object
+host: localhost:8000
+info:
+  contact: {}
+  description: This is a book service api.
+  title: Swagger for book api
+  version: "1.0"
+paths:
+  /book:
+    get:
+      consumes:
+      - application/json
+      description: Get all books
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        required: true
+        type: integer
+      - description: Page
+        in: query
+        name: page
+        required: true
+        type: integer
+      - description: AuthorName
+        in: query
+        name: author_name
+        type: string
+      - description: Title
+        in: query
+        name: title
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/apifunc.BookRequest'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/apifunc.ResponseError'
+      summary: Get all books
+      tags:
+      - book
+    post:
+      consumes:
+      - application/json
+      description: Create a book
+      parameters:
+      - description: Book
+        in: body
+        name: book
+        required: true
+        schema:
+          $ref: '#/definitions/apifunc.BookRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/storage.Book'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/apifunc.ResponseError'
+      summary: Create a book
+      tags:
+      - book
+  /book/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get book by id
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/storage.Book'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/apifunc.ResponseError'
+      summary: Get book by id
+      tags:
+      - book
+    put:
+      consumes:
+      - application/json
+      description: Update a book
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Book
+        in: body
+        name: book
+        required: true
+        schema:
+          $ref: '#/definitions/apifunc.BookRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/apifunc.BookRequest'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/apifunc.ResponseError'
+      summary: Update a book
+      tags:
+      - book
+swagger: "2.0"
